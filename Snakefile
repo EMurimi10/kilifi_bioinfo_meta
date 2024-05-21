@@ -1,11 +1,11 @@
 
 rule quality_check:
     input:
-        "data/N0037_barcode01.fastq.gz"
+        "data/meta_242526.fastq.gz"
     output:
-        "/home/davis/kilifi_bioinfo_meta/output1"
+        directory("/home/davis/kilifi_bioinfo_meta/output1")
     conda: 
-        "/home/davis/miniconda3/envs/nanoplot"
+        "nanoplot"
     shell:
         "NanoPlot --fastq {input} --loglength -o {output}"
 
