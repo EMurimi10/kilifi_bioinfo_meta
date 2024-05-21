@@ -1,10 +1,11 @@
 
 rule quality_check:
     input:
-        "/data_storage/seqtz-runs/cholera-kcmc/march2024_outbreak/05-fastq/meta_242526.fastq.gz"
+        "data/N0037_barcode01.fastq.gz"
     output:
-        "/home/davis/kilifi_bioinfo_meta/output"
-    conda: "nanoplot.yaml"
+        "/home/davis/kilifi_bioinfo_meta/output1"
+    conda: 
+        "nanoplot.yaml"
     shell:
         "NanoPlot --fastq {input} --loglength -o {output}"
 

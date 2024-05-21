@@ -1,0 +1,38 @@
+Building DAG of jobs...
+Retrieving input from storage.
+Using shell: /usr/bin/bash
+Provided cores: 10
+Rules claiming more threads will be scaled down.
+Conda environments: ignored
+Job stats:
+job              count
+-------------  -------
+quality_check        1
+total                1
+
+Select jobs to execute...
+Execute 1 jobs...
+
+[Tue May 21 09:19:15 2024]
+localrule quality_check:
+    input: data/N0037_barcode01.fastq.gz
+    output: /home/davis/kilifi_bioinfo_meta/output1
+    jobid: 0
+    reason: Missing output files: /home/davis/kilifi_bioinfo_meta/output1
+    resources: tmpdir=/tmp
+
+[Tue May 21 09:19:15 2024]
+Error in rule quality_check:
+    jobid: 0
+    input: data/N0037_barcode01.fastq.gz
+    output: /home/davis/kilifi_bioinfo_meta/output1
+    conda-env: /home/davis/kilifi_bioinfo_meta/.snakemake/conda/9db110e1a00d39c8734a08a5f164cdc2_
+    shell:
+        NanoPlot --fastq data/N0037_barcode01.fastq.gz --loglength -o /home/davis/kilifi_bioinfo_meta/output1
+        (one of the commands exited with non-zero exit code; note that snakemake uses bash strict mode!)
+
+Shutting down, this might take some time.
+Exiting because a job execution failed. Look above for error message
+Complete log: .snakemake/log/2024-05-21T091914.938452.snakemake.log
+WorkflowError:
+At least one job did not complete successfully.
