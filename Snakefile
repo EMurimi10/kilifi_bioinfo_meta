@@ -3,16 +3,17 @@ rule rule_all:
         "/home/davis/kilifi_bioinfo_meta/quality_check",
         "/home/davis/kilifi_bioinfo_meta/data/meta_242526_filtered.fastq.gz",
         "/home/davis/kilifi_bioinfo_meta/data/meta_242526_decontaminated.bam"
+rule rule_all:
+    input:
+        "/home/davis/kilifi_bioinfo_meta/quality_check",
+        "/home/davis/kilifi_bioinfo_meta/data/meta_242526_filtered.fastq.gz",
+        "/home/davis/kilifi_bioinfo_meta/data/meta_242526_decontaminated.bam"
 
 rule quality_check:
     input:
         "data/meta_242526.fastq.gz"
     output:
-<<<<<<< HEAD
-        directory("/home/davis/kilifi_bioinfo_meta/output1")
-=======
         directory("/home/davis/kilifi_bioinfo_meta/quality_check")
->>>>>>> a993da9 (updated snakefile with more rules)
     conda: 
         "nanoplot"
     shell:
