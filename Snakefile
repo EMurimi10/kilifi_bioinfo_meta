@@ -5,7 +5,7 @@ rule quality_check:
     output:
         "/home/davis/kilifi_bioinfo_meta/output1"
     conda: 
-        "nanoplot.yaml"
+        "/home/davis/miniconda3/envs/nanoplot"
     shell:
         "NanoPlot --fastq {input} --loglength -o {output}"
 
