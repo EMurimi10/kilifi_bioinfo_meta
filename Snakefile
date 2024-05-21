@@ -2,12 +2,7 @@ rule rule_all:
     input:
         "/home/davis/kilifi_bioinfo_meta/quality_check",
         "/home/davis/kilifi_bioinfo_meta/data/meta_242526_filtered.fastq.gz",
-        "/home/davis/kilifi_bioinfo_meta/data/meta_242526_decontaminated.bam"
-rule rule_all:
-    input:
-        "/home/davis/kilifi_bioinfo_meta/quality_check",
-        "/home/davis/kilifi_bioinfo_meta/data/meta_242526_filtered.fastq.gz",
-        "/home/davis/kilifi_bioinfo_meta/data/meta_242526_decontaminated.bam"
+        "/home/davis/kilifi_bioinfo_meta/data/meta_242526_decontaminated"
 
 rule quality_check:
     input:
@@ -32,34 +27,23 @@ rule filtering:
 
 rule decontamination:
     input:
-        query="data/meta_242526_filtered.fastq.gz",
-        ref="data/meta_242526.fastq.gz"
+        rules.filtering.output 
     output:
-        "/home/davis/kilifi_bioinfo_meta/data/meta_242526_decontaminated.bam"
+        directory("/home/davis/kilifi_bioinfo_meta/data/meta_242526_decontaminated")
     conda: 
-        "minimap2"
+        "hostile"
     shell:
-        "minimap2 -ax map-ont {input.ref} {input.query} | samtools sort -@ 8 -o {output} > {output}"
+        "hostile clean --fastq1 {input} --aligner minimap2 --out-dir {output}"
 
-rule filter_decontaminated:
-    input:
-        "/home/davis/kilifi_bioinfo_meta/data/meta_242526_decontaminated.bam"
-    output:
-        "/home/davis/kilifi_bioinfo_meta/data/meta_242526_filtered_decontaminated.bam"
-    conda: 
-        "samtools"
-    shell:
-        "samtools view -h -b -q 10 {input} | samtools sort -@ 8 -o {output}"
-
-rule metamaps_classifiaction:
-    input:
-        "/home/davis/kilifi_bioinfo_meta/data/meta_242526_filtered_decontaminated.bam"
-    output:
-        "/home/davis/kilifi_bioinfo_meta/data/meta_242526_classified.bam"
-    conda: 
-        "metamaps"
-    shell:
-        "metamaps -i {input} -o {output}"
+# rule metamaps_classifiaction:
+#     input:
+#         "/home/davis/kilifi_bioinfo_meta/data/meta_242526_filtered_decontaminated.bam"
+#     output:
+#         "/home/davis/kilifi_bioinfo_meta/data/meta_242526_classified.bam"
+#     conda: 
+#         "metamaps"
+#     shell:
+#         "metamaps -i {input} -o {output}"
 
 # rule Classification
 # rule Abundance
