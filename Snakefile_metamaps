@@ -1,0 +1,26 @@
+rule metamaps_classify:
+    input:
+        database="databases/miniSeq+H/DB.fa",
+        fastq_in="input.fastq"
+        database_dir="databases/miniSeq+H"
+    output:
+        wimp="{params.stem}.EM.WIMP"
+        r2tax="{params.stem}.EM.reads2Taxon"
+        r2tax_kro="{params.stem}.EM.reads2Taxon.krona"
+        cont_cov="{params.stem}.EM.contigCoverage"
+        lIDs_map="{params.stem}.EM.lengthAndIdentitiesPerMappingUnit"
+        em="{params.stem}.EM"
+        unk_sp="{params.stem}.EM.evidenceUnknownSpecies"
+    params:
+        stem="classify_results",
+        threads=5,
+    resources:
+        mem_mb=16000,
+        disk_mb=10000
+    log:
+        "logs/map_directly.log"
+    threads: 5
+
+    shell:
+        "metamaps mapDirectly -t {params.threads} --all -r {input.database} -q {input.fastq_in}.fastq -o {params.stem} --maxmemory 20",
+        "metamaps classify -t {params.threads} --mappings {params.stem} --DB {input.database_dir}"
