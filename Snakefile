@@ -2,8 +2,6 @@
 rule rule_all:
     input:
         "/home/davis/kilifi_bioinfo_meta/quality_check",
-        "/home/davis/kilifi_bioinfo_meta/data/meta_242526_filtered.fastq.gz",
-        "/home/davis/kilifi_bioinfo_meta/data/meta_242526_decontaminated",
         "/home/davis/kilifi_bioinfo_meta/mmseq2_output/report.html"
 
 targetDB="/home/davis/kilifi_bioinfo_meta/db/Kalamari"
@@ -40,20 +38,19 @@ rule decontamination:
     shell:
         "hostile clean --fastq1 {input} --aligner minimap2 --out-dir {output}"
 
-# rule assembly:
-#     input:
-#         "/home/davis/kilifi_bioinfo_meta/data/meta_242526_filtered.fastq.gz"
-#     output:
-#         directory("/home/davis/kilifi_bioinfo_meta/data/meta_242526_assembly")
-#     conda:
-#         "flye"
-#     shell:
-#         "flye --nano-raw {input} --out-dir {output} --meta"
+rule assembly:
+    input:
+        rules.decontamination.output
+    output:
+        directory("/home/davis/kilifi_bioinfo_meta/data/meta_242526_assembly")
+    conda:
+        "flye"
+    shell:
+        "flye --nano-raw {input} --out-dir {output} --meta"
 
 rule mmseq2_classify:
     input:
-        "/home/davis/kilifi_bioinfo_meta/data/assemmbly/assembly.fasta"
-        # rules.assembly.output
+        rules.assembly.output
     output:
         "/home/davis/kilifi_bioinfo_meta/mmseq2_output/report.html"
     conda: 
